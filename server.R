@@ -1,8 +1,12 @@
 library(shiny)
 library(shinyWidgets)
 file.remove("waiting.lck")
-
-vars <- reactiveValues(rest_straws=c())
+if(file.exists("current_straws.rds")){
+  all_straws = readRDS("current_straws.rds")
+}else{
+  all_straws = c()
+}
+vars <- reactiveValues(rest_straws=all_straws)
 
 server <- function(input, output, session) {
   observeEvent(input$check_reset, {
