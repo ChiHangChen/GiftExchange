@@ -62,7 +62,7 @@ server <- function(input, output, session) {
   })
   output$n_straws_left = renderUI({
     HTML(
-      paste0("籤統還剩下 ",length(vars$rest_straws)," 支籤<br/>剩下的籤號 : ",paste(vars$rest_straws,collapse = " "))
+      paste0("籤筒還剩下 ",length(vars$rest_straws)," 支籤<br/>剩下的籤號 : ",paste(vars$rest_straws,collapse = " "))
     )
   })
 }
