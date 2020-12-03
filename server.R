@@ -15,9 +15,11 @@ server <- function(input, output, session) {
     )
   })
   observeEvent(input$reset, {
-    all_straws = c(1:input$reset_num)
-    saveRDS(all_straws, "current_straws.rds")
-    vars$rest_straws <<- all_straws
+    if(input$reset){
+      all_straws = c(1:input$reset_num)
+      saveRDS(all_straws, "current_straws.rds")
+      vars$rest_straws <<- all_straws
+    }
   })
   observeEvent(input$withdraw, {
     if(file.exists("waiting.lck")){
@@ -38,6 +40,7 @@ server <- function(input, output, session) {
         text = "沒有籤了",
         type = "error"
       )
+      file.remove("waiting.lck")
       return()
     }
     straws_id = sample(length(all_straws),1)
