@@ -31,7 +31,7 @@ server <- function(input, output, session) {
       )
       return()
     }
-    saveRDS("", "waiting.lck")
+    file.create("waiting.lck")
     all_straws = readRDS("current_straws.rds")
     if(length(all_straws)==0){
       sendSweetAlert(
