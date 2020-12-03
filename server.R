@@ -1,5 +1,6 @@
 library(shiny)
 library(shinyWidgets)
+file.remove("waiting.lck")
 
 vars <- reactiveValues(rest_straws=c())
 
@@ -19,9 +20,13 @@ server <- function(input, output, session) {
     vars$rest_straws <<- all_straws
   })
   observeEvent(input$withdraw, {
-    start_time = Sys.time()
     if(file.exists("waiting.lck")){
-      print("someone is using")
+      sendSweetAlert(
+        session = session,
+        title = "Busy",
+        text = "有人正在抽抽 請稍等一下",
+        type = "error"
+      )
       return()
     }
     saveRDS("", "waiting.lck")
@@ -41,7 +46,6 @@ server <- function(input, output, session) {
     vars$rest_straws <<- rest_straws
     saveRDS(rest_straws, "current_straws.rds")
     file.remove("waiting.lck")
-    print(Sys.time()-start_time)
     sendSweetAlert(
       session = session,
       title = "成功!!",
